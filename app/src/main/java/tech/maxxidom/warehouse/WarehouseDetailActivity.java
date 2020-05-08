@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,13 +13,23 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class WarehouseDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class WarehouseDetailActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private EditText etRoomNumberDetail;
     private ArrayList<Article> articlesList = new ArrayList<>();
 
     private Warehouse warehouse;
     private int position;
+
+
+    public static final int RESULT_ARTICLE_ADD     = 3;
+    public static final int RESULT_ARTICLE_DETAIL  = 4;
+    public static final int RESULT_ARTICLE_EDIT    = 5;
+    public static final int RESULT_ARTICLE_DELETE  = 6;
+
+    public static final String RESULT_ARTICLE = "RESULT_ARTICLE";
+    public static final String POSITION = "POSITION";
+    public static final String DATA = "DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +45,9 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
         etRoomNumberDetail.setText(warehouse.getRoomNumber());
         articlesList = warehouse.getArticles();
 
-
         ArrayAdapter<Article> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, articlesList);
         ListView lvArticleList = findViewById(R.id.lvArticleList);
+        lvArticleList.setOnItemClickListener(this);
         lvArticleList.setAdapter(adapter);
 
         Button btnRoomNumberSave = findViewById(R.id.btnRoomNumberSave);
@@ -51,7 +62,6 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.btnRoomNumberSave:
                 OnClickRoomNumberSave();
@@ -63,7 +73,6 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
                 OnClickNewArticle();
                 break;
         }
-
     }
 
     private void OnClickRoomNumberSave() {
@@ -89,5 +98,16 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
 
     private void OnClickNewArticle() {
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Article article = articlesList.get(position);
+
+        Intent intent = new Intent(this, ArticleDetailActivity.class);
+        intent.putExtra(MainActivity.POSITION, position);
+        intent.putExtra(MainActivity.DATA, article);
+
+        startActivityForResult(intent, RESULT_ARTICLE_DETAIL);
     }
 }

@@ -29,6 +29,7 @@
 ### ArticleDetail
 
 		EditText etArticleNameDetail
+		EditText etArticleQuantityDetail
 		Button btnArticleSave
 		Button btnArticleDelete
 

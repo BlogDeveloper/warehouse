@@ -32,6 +32,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Warehouse w1 = new Warehouse("1.15");
+        w1.setArticle("Milch", 12);
+        w1.setArticle("Brot", 1);
+
+        warehousesList.add(w1);
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, warehousesList);
 
         ListView lvRoomList = findViewById(R.id.lvRoomList);
