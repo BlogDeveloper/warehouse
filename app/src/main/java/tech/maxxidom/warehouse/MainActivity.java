@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int RESULT_WAREHOUSE_DELETE  = 6;
 
     public static final String RESULT_ROOM_NUMBER = "RESULT_ROOM_NUMBER";
-
     public static final String POSITION = "POSITION";
     public static final String DATA = "DATA";
 
@@ -32,18 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Warehouse h1 = new Warehouse("11.5");
-        h1.setArticle("Brot", 12);
-        h1.setArticle("Milch", 3);
-        h1.setArticle("Butter", 136);
-
-        Warehouse h2 = new Warehouse("11.6");
-        h2.setArticle("Wasser", 200);
-        h2.setArticle("Cola", 540);
-
-        warehousesList.add(h1);
-        warehousesList.add(h2);
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, warehousesList);
 
