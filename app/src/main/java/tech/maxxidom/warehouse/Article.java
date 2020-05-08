@@ -1,6 +1,10 @@
 package tech.maxxidom.warehouse;
 
-public class Article {
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
+
+public class Article implements Serializable {
 
     private String articleName;
     private int articleQuantity;
@@ -24,5 +28,11 @@ public class Article {
 
     public void setArticleQuantity(int articleQuantity) {
         this.articleQuantity = articleQuantity;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getArticleName() + " ( " + getArticleQuantity() + " )";
     }
 }

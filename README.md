@@ -1,21 +1,30 @@
 ## Activity
 
 ### Main
-        ListView raumlist
-        Button newRoom
+        ListView lvRoomList
+        Button btnNewRoom
+
+### WarehouseNew
+	    EdtiText etRoomNumberNew
+		Button btnRoomNumberAdd
 
 
-### LagerDetail
-	    EdtiText lagerNummer
-		ListView artikellist
-		Button lagerEdit
-		Button newArtikel
+### WarehouseDetail
+	    EdtiText etRoomNumberDetail
+		ListView lvArticleList
+		Button btnRoomNumberSave
+		Button btnNewArticle
+
+
+### ArticleNew
+		EditText etArticleNameNew
+		Button btnArticleAdd
 
 
 ### ArticleDetail
-		EditText articleName
-		Button articleSave
-		Button articleDelete
+		EditText etArticleNameDetail
+		Button btnArticleSave
+		Button btnArticleDelete
 
 
 ## Classes
