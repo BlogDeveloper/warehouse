@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static final int RESULT_WAREHOUSE_ADD = 3;
     public static final int RESULT_WAREHOUSE_DETAIL = 4;
+    public static final int RESULT_WAREHOUSE_EDIT = 4;
     public static final int RESULT_WAREHOUSE_DELETE = 9;
 
     public static final String RESULT_ROOM_NUMBER = "RESULT_ROOM_NUMBER";
@@ -84,19 +85,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void onActivityEditWarehouseResult(int resultCode, Intent data) {
-        if (resultCode == RESULT_WAREHOUSE_DETAIL) {
 
+        if (resultCode == RESULT_WAREHOUSE_EDIT) {
             int position = data.getIntExtra(POSITION, -1);
-
             if (position >= 0) {
                 String roomNumber = data.getStringExtra(RESULT_ROOM_NUMBER);
-
                 Warehouse warehouse = warehousesList.get(position);
                 warehouse.setRoomNumber(roomNumber);
             }
-
-            adapter.notifyDataSetChanged();
         }
+
+        if (resultCode == RESULT_WAREHOUSE_DELETE) {
+            int position = data.getIntExtra(POSITION, -1);
+            if (position >= 0) {
+                Warehouse warehouse = warehousesList.get(position);
+                warehousesList.remove(warehouse);
+            }
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
     private void onActivityNewWarehouseResult(int resultCode, Intent data) {

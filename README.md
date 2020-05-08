@@ -13,6 +13,7 @@
 	    EdtiText etRoomNumberDetail
 		ListView lvArticleList
 		Button btnRoomNumberSave
+		Button btnRoomNumberDelete
 		Button btnNewArticle
 
 

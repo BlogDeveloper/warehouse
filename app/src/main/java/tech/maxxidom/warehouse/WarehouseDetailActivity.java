@@ -42,6 +42,9 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
         Button btnRoomNumberSave = findViewById(R.id.btnRoomNumberSave);
         btnRoomNumberSave.setOnClickListener(this);
 
+        Button btnRoomNumberDelete = findViewById(R.id.btnRoomNumberDelete);
+        btnRoomNumberDelete.setOnClickListener(this);
+
         Button btnNewArticle = findViewById(R.id.btnNewArticle);
         btnNewArticle.setOnClickListener(this);
     }
@@ -52,6 +55,9 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
         switch (v.getId()) {
             case R.id.btnRoomNumberSave:
                 OnClickRoomNumberSave();
+                break;
+            case R.id.btnRoomNumberDelete:
+                OnClickRoomNumberDelete();
                 break;
             case R.id.btnNewArticle:
                 OnClickNewArticle();
@@ -69,7 +75,15 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
         intent.putExtra(MainActivity.RESULT_ROOM_NUMBER, warehouse.getRoomNumber());
         intent.putExtra(MainActivity.POSITION, position);
 
-        setResult(MainActivity.RESULT_WAREHOUSE_DETAIL, intent);
+        setResult(MainActivity.RESULT_WAREHOUSE_EDIT, intent);
+        finish();
+    }
+
+    private void OnClickRoomNumberDelete() {
+        Intent intent = new Intent();
+        intent.putExtra(MainActivity.POSITION, position);
+
+        setResult(MainActivity.RESULT_WAREHOUSE_DELETE, intent);
         finish();
     }
 
