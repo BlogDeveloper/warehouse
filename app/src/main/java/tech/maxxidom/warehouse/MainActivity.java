@@ -78,13 +78,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 onActivityNewWarehouseResult(resultCode, data);
                 break;
             case RESULT_WAREHOUSE_DETAIL:
-                onActivityEditWarehouseResult(resultCode, data);
+                onActivityDetailWarehouseResult(resultCode, data);
                 break;
         }
-
     }
 
-    private void onActivityEditWarehouseResult(int resultCode, Intent data) {
+    private void onActivityDetailWarehouseResult(int resultCode, Intent data) {
 
         if (resultCode == RESULT_WAREHOUSE_EDIT) {
             int position = data.getIntExtra(POSITION, -1);
