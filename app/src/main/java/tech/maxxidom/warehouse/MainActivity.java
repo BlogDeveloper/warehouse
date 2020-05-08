@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<Warehouse> warehousesList = new ArrayList<>();
     private ArrayAdapter<Warehouse> adapter;
 
-    public static final int RESULT_WAREHOUSE_ADD = 3;
-    public static final int RESULT_WAREHOUSE_DETAIL = 4;
-    public static final int RESULT_WAREHOUSE_EDIT = 5;
-    public static final int RESULT_WAREHOUSE_DELETE = 6;
+    public static final int RESULT_WAREHOUSE_ADD     = 3;
+    public static final int RESULT_WAREHOUSE_DETAIL  = 4;
+    public static final int RESULT_WAREHOUSE_EDIT    = 5;
+    public static final int RESULT_WAREHOUSE_DELETE  = 6;
 
     public static final String RESULT_ROOM_NUMBER = "RESULT_ROOM_NUMBER";
 
