@@ -1,5 +1,6 @@
 package tech.maxxidom.warehouse;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -17,19 +18,18 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
 
     private EditText etRoomNumberDetail;
     private ArrayList<Article> articlesList = new ArrayList<>();
+    private ArrayAdapter<Article> adapter;
 
     private Warehouse warehouse;
     private int position;
-
 
     public static final int RESULT_ARTICLE_ADD     = 3;
     public static final int RESULT_ARTICLE_DETAIL  = 4;
     public static final int RESULT_ARTICLE_EDIT    = 5;
     public static final int RESULT_ARTICLE_DELETE  = 6;
 
-    public static final String RESULT_ARTICLE = "RESULT_ARTICLE";
     public static final String POSITION = "POSITION";
-    public static final String DATA = "DATA";
+    public static final String DATA     = "DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
         etRoomNumberDetail.setText(warehouse.getRoomNumber());
         articlesList = warehouse.getArticles();
 
-        ArrayAdapter<Article> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, articlesList);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, articlesList);
         ListView lvArticleList = findViewById(R.id.lvArticleList);
         lvArticleList.setOnItemClickListener(this);
         lvArticleList.setAdapter(adapter);
@@ -97,7 +97,8 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
     }
 
     private void OnClickNewArticle() {
-
+        Intent intent = new Intent(this, ArticleNewActivity.class);
+        startActivityForResult(intent, RESULT_ARTICLE_ADD);
     }
 
     @Override
@@ -109,5 +110,52 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
         intent.putExtra(MainActivity.DATA, article);
 
         startActivityForResult(intent, RESULT_ARTICLE_DETAIL);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case RESULT_ARTICLE_DETAIL:
+                OnActivityDetailArticleResult(resultCode, data);
+                break;
+            case RESULT_ARTICLE_ADD:
+                OnActivityNewArticleResult(resultCode, data);
+                break;
+        }
+    }
+
+    private void OnActivityNewArticleResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_ARTICLE_ADD) {
+            Article resultArticle = (Article) data.getSerializableExtra(DATA);
+            warehouse.setArticle(resultArticle.getArticleName(), resultArticle.getArticleQuantity());
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
+    private void OnActivityDetailArticleResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_ARTICLE_EDIT) {
+            int position = data.getIntExtra(POSITION, -1);
+
+            if (position >= 0) {
+                Article resultArticle = (Article) data.getSerializableExtra(DATA);
+
+                Article article = articlesList.get(position);
+                article.setArticleName(resultArticle.getArticleName());
+                article.setArticleQuantity(resultArticle.getArticleQuantity());
+            }
+        }
+
+        if (resultCode == RESULT_ARTICLE_DELETE) {
+            int position = data.getIntExtra(POSITION, -1);
+            if (position >= 0) {
+                Article article = articlesList.get(position);
+                articlesList.remove(article);
+            }
+        }
+
+        adapter.notifyDataSetChanged();
     }
 }

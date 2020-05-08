@@ -32,12 +32,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Warehouse w1 = new Warehouse("1.15");
-        w1.setArticle("Milch", 12);
-        w1.setArticle("Brot", 1);
-
-        warehousesList.add(w1);
-
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, warehousesList);
 
         ListView lvRoomList = findViewById(R.id.lvRoomList);
@@ -77,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void onActivityDetailWarehouseResult(int resultCode, Intent data) {
-
         if (resultCode == RESULT_WAREHOUSE_EDIT) {
             int position = data.getIntExtra(POSITION, -1);
             if (position >= 0) {

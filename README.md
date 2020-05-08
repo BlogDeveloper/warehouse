@@ -23,6 +23,7 @@
 ### ArticleNew
 
 		EditText etArticleNameNew
+		EditText etArticleQuantityNew
 		Button btnArticleAdd
 
 

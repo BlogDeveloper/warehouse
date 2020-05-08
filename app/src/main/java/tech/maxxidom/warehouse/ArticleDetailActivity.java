@@ -39,6 +39,37 @@ public class ArticleDetailActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnArticleSave:
+                ArticleSave();
+                break;
+            case R.id.btnArticleDelete:
+                ArticleDelete();
+                break;
+        }
+    }
 
+    private void ArticleDelete() {
+        Intent intent = new Intent();
+        intent.putExtra(WarehouseDetailActivity.POSITION, position);
+
+        setResult(WarehouseDetailActivity.RESULT_ARTICLE_DELETE, intent);
+        finish();
+    }
+
+    private void ArticleSave() {
+        String name  = etArticleNameDetail.getText().toString();
+        int quantity = Integer.parseInt(etArticleQuantityDetail.getText().toString());
+
+        article.setArticleName(name);
+        article.setArticleQuantity(quantity);
+
+        Intent intent = new Intent(this, WarehouseDetailActivity.class);
+
+        intent.putExtra(WarehouseDetailActivity.POSITION, position);
+        intent.putExtra(WarehouseDetailActivity.DATA, article);
+
+        setResult(WarehouseDetailActivity.RESULT_ARTICLE_EDIT, intent);
+        finish();
     }
 }
