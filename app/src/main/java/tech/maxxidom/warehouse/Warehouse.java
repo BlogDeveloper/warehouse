@@ -34,6 +34,10 @@ public class Warehouse implements Serializable {
         articles.add(new Article(articleName, articleQuantity));
     }
 
+    public void setArticles(ArrayList<Article> articles) {
+        this.articles = articles;
+    }
+
     @NonNull
     @Override
     public String toString() {

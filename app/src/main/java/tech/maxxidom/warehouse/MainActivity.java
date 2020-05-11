@@ -5,23 +5,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private ArrayList<Warehouse> warehousesList = new ArrayList<>();
     private ArrayAdapter<Warehouse> adapter;
 
+    private File file;
+
     public static final int RESULT_WAREHOUSE_ADD     = 3;
     public static final int RESULT_WAREHOUSE_DETAIL  = 4;
     public static final int RESULT_WAREHOUSE_EDIT    = 5;
     public static final int RESULT_WAREHOUSE_DELETE  = 6;
+    public static final int RESULT_WAREHOUSE_SAVE    = 7;
 
     public static final String RESULT_ROOM_NUMBER = "RESULT_ROOM_NUMBER";
     public static final String POSITION = "POSITION";
@@ -32,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        file = new File(getExternalFilesDir(null), "warehouse.txt");
+        Deserialize();
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, warehousesList);
 
         ListView lvRoomList = findViewById(R.id.lvRoomList);
@@ -40,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btnNewRoom = findViewById(R.id.btnNewRoom);
         btnNewRoom.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Serialize();
     }
 
     @Override
@@ -74,12 +93,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (resultCode == RESULT_WAREHOUSE_EDIT) {
             int position = data.getIntExtra(POSITION, -1);
             if (position >= 0) {
-                String roomNumber = data.getStringExtra(RESULT_ROOM_NUMBER);
+                Warehouse resultWarehouse = (Warehouse) data.getSerializableExtra(DATA);
                 Warehouse warehouse = warehousesList.get(position);
-                warehouse.setRoomNumber(roomNumber);
+                warehouse.setRoomNumber(resultWarehouse.getRoomNumber());
+                warehouse.setArticles(resultWarehouse.getArticles());
             }
         }
-
+        
         if (resultCode == RESULT_WAREHOUSE_DELETE) {
             int position = data.getIntExtra(POSITION, -1);
             if (position >= 0) {
@@ -110,4 +130,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         startActivityForResult(intent, RESULT_WAREHOUSE_DETAIL);
     }
+
+
+    public void Serialize() {
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+//            for (Warehouse warehouse : warehousesList) {
+//                oos.writeObject(warehouse);
+//            }
+
+            oos.writeObject(warehousesList);
+
+            fos.close();
+            oos.close();
+
+        } catch (Exception ex) {
+            Log.e("test", "save()", ex);
+        }
+    }
+
+    public void Deserialize() {
+        try {
+
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            warehousesList.clear();
+            Object obj;
+
+            while ((obj = ois.readObject()) != null)  {
+//                warehousesList.add((Warehouse) obj);
+                warehousesList = (ArrayList<Warehouse>) obj;
+            }
+
+        } catch (Exception ex) {
+            Log.e("test", "save()", ex);
+        }
+    }
+
 }

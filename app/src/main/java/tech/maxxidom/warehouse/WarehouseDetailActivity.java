@@ -60,12 +60,17 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
         btnNewArticle.setOnClickListener(this);
     }
 
+    @Override
+    public void onBackPressed() {
+        Save();
+        super.onBackPressed();
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRoomNumberSave:
-                OnClickRoomNumberSave();
+                OnClickSave();
                 break;
             case R.id.btnRoomNumberDelete:
                 OnClickRoomNumberDelete();
@@ -76,13 +81,17 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void OnClickRoomNumberSave() {
+    private void OnClickSave() {
+        Save();
+    }
+
+    private void Save() {
         Intent intent = new Intent();
 
         String roomNumber = etRoomNumberDetail.getText().toString();
         warehouse.setRoomNumber(roomNumber);
 
-        intent.putExtra(MainActivity.RESULT_ROOM_NUMBER, warehouse.getRoomNumber());
+        intent.putExtra(MainActivity.DATA, warehouse);
         intent.putExtra(MainActivity.POSITION, position);
 
         setResult(MainActivity.RESULT_WAREHOUSE_EDIT, intent);
