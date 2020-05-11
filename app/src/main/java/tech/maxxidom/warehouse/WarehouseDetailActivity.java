@@ -60,6 +60,7 @@ public class WarehouseDetailActivity extends AppCompatActivity implements View.O
         btnNewArticle.setOnClickListener(this);
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
